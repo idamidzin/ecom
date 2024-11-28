@@ -7,6 +7,7 @@ class Home extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'KING VAPEZONE';
+		$data['menus'] = $this->model_kategori->getMenuByCategory();
 		$data['product'] = $this->model_pembayaran->get('product')->result();
 		$this->load->view('layout/home/header', $data);
 		$this->load->view('home', $data);

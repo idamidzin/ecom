@@ -19018,3 +19018,37 @@ html body{
         color: rgb(var(--color-success) / var(--tw-text-opacity));
     }
 }
+
+/* Spinner Style */
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Warna latar */
+  border-top: 4px solid #007bff; /* Warna utama */
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* Animasi berputar */
+}
+
+/* Animasi berputar */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+/* Spinner container untuk form */
+.spinner-container {
+  position: absolute; /* Posisi absolut untuk menempatkan di tengah */
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Tengah horizontal dan vertikal */
+  z-index: 10; /* Prioritas tampil */
+}
+
+.form-group {
+  position: relative;
+}

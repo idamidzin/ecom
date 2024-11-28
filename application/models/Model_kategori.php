@@ -32,4 +32,16 @@ class Model_kategori extends CI_Model
 	{
 		return $this->db->get_where('product', array('kategori' => 'Fashion & Make Up'));
 	}
+
+	public function getProductByCategory($kategori)
+	{
+		return $this->db->get_where('product', array('kategori' => $kategori));
+	}
+
+	public function getMenuByCategory()
+	{
+		$this->db->select('kategori');
+		$this->db->group_by('kategori');
+		return $this->db->get('product')->result_array();
+	}
 }

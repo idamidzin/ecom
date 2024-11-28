@@ -81,8 +81,8 @@
                                         <option value="Device">Device</option>
                                         <option value="Liquid">Liquid</option>
                                         <option value="Cartridge">Cartridge</option>
-                                        <option value="Coil ">Coil</option>
-                                        <option value=" Others"> Others</option>
+                                        <option value="Coil">Coil</option>
+                                        <option value="Others">Others</option>
                                     </select>
                                 </div>
                             </div>

@@ -24,11 +24,11 @@
       <!-- BEGIN: Login Info -->
       <div class="hidden xl:flex flex-col min-h-screen">
         <a href="" class="-intro-x flex items-center pt-5">
-          <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+          <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
           <span class="text-white text-lg ml-3"> VAPEZONE </span>
         </a>
         <div class="my-auto">
-          <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="<?= site_url('asset') ?>/admin/dist/images/illustration.svg">
+          <img  class="-intro-x w-1/2 -mt-16" src="<?= site_url('asset') ?>/admin/dist/images/illustration.svg">
           <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
             login untuk membeli,
             <br>
@@ -61,7 +61,7 @@
               <a href="<?= site_url('register') ?>" class="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top">Register</a>
             </div>
           </form>
-          <div class="intro-x mt-10 xl:mt-24 text-slate-600 dark:text-slate-500 text-center xl:text-left"> By signin up, you agree to our <a class="text-primary dark:text-slate-200" href="">Terms and Conditions</a> & <a class="text-primary dark:text-slate-200" href="">Privacy Policy</a> </div>
+          <!-- <div class="intro-x mt-10 xl:mt-24 text-slate-600 dark:text-slate-500 text-center xl:text-left"> By signin up, you agree to our <a class="text-primary dark:text-slate-200" href="">Terms and Conditions</a> & <a class="text-primary dark:text-slate-200" href="">Privacy Policy</a> </div> -->
         </div>
       </div>
       <!-- END: Login Form -->

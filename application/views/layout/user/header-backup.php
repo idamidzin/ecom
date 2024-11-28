@@ -21,18 +21,11 @@ License: You must have a valid license purchased only from themeforest(the above
     <title><?= $title ?> | KING VAPEZONE</title>
     <!-- BEGIN: CSS Assets-->
     <link rel="stylesheet" href="<?= site_url('asset') ?>/admin/dist/css/app.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css" rel="stylesheet">
-    </link>
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-kmbmTlxtNRFjaL3L"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- END: CSS Assets-->
 </head>
 <!-- END: Head -->
-
-<style>
-    #chartdiv {
-        width: 100%;
-        height: 200px;
-    }
-</style>
 
 <body class="main">
     <!-- BEGIN: Mobile Menu -->
@@ -40,6 +33,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="mobile-menu-bar">
             <a href="" class="flex mr-auto">
                 <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <span class="text-white text-lg ml-3"> KING VAPEZONE </span>
             </a>
             <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
         </div>
@@ -693,30 +687,31 @@ License: You must have a valid license purchased only from themeforest(the above
                 </ol>
             </nav>
             <!-- END: Breadcrumb -->
-            <!-- BEGIN: Search -->
 
-            <!-- END: Search -->
             <!-- BEGIN: Notifications -->
             <div class="intro-x dropdown mr-4 sm:mr-6">
-                <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i> </div>
+                <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="shopping-cart" class="notification__icon dark:text-slate-500"></i> </div>
                 <div class="notification-content pt-2 dropdown-menu">
                     <div class="notification-content__box dropdown-content">
-                        <div class="notification-content__title">Notifications</div>
-                        <?php foreach ($bill as $row) : ?>
-                            <div class="cursor-pointer relative flex items-center mt-5">
+                        <div class="notification-content__title"> <?php $keranjang = 'Shopping Cart : ' . $this->cart->total_items() . ' items ' ?>&nbsp; <?php echo $keranjang ?></div>
+
+                        <?php foreach ($this->cart->contents() as $items) : ?>
+                            <div class="cursor-pointer relative flex items-center ">
                                 <div class="w-12 h-12 flex-none image-fit mr-1">
-                                    <img class="rounded-full" src="<?= base_url('asset') ?>/user.png">
+                                    <img  class="rounded-full" src="<?= base_url() . '/uploads/' . $items['options']['gambar']; ?>">
                                     <div class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
                                 </div>
                                 <div class="ml-2 overflow-hidden">
                                     <div class="flex items-center">
-                                        <a href="javascript:;" class="font-medium truncate mr-5"><?= $row->name ?></a>
-                                        <div class="text-xs text-slate-400 ml-auto whitespace-nowrap"><?= date("d F Y H:i:s", strtotime($row->transaction_time)); ?></div>
+                                        <a href="javascript:;" class="font-medium truncate mr-5"> <?php echo $items['name']; ?> &nbsp; <small>x <?php echo $items['qty']; ?></small></a>
                                     </div>
-                                    <div class="w-full truncate text-slate-500 mt-0.5">Telah melakukan order produk</div>
+                                    <div class="w-full truncate text-slate-500 mt-0.5"><?php echo $items['options']['keterangan']; ?> </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                        <br>
+                        <hr>
+                        <button class="btn btn-sm btn-rounded-primary mt-4"><span class="text-uppercase"><a href="<?= site_url('dashboard/detail_cart') ?>">DETAIL CART</a></span></button>
                     </div>
                 </div>
             </div>
@@ -724,7 +719,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN: Account Menu -->
             <div class="intro-x dropdown w-8 h-8">
                 <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110" role="button" aria-expanded="false" data-tw-toggle="dropdown">
-                    <img  src="<?= site_url('asset') ?>/user.jpg">
+                    <img  src="<?= site_url('asset') ?>/user.png">
                 </div>
                 <div class="dropdown-menu w-56">
                     <ul class="dropdown-content bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white">
@@ -736,10 +731,10 @@ License: You must have a valid license purchased only from themeforest(the above
                             <hr class="dropdown-divider border-white/[0.08]">
                         </li>
                         <li>
-                            <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                            <a href="<?= site_url('profile') ?>" class="dropdown-item hover:bg-white/5"> <i data-lucide="user" class="w-4 h-4 mr-2"></i> My Profile </a>
                         </li>
                         <li>
-                            <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
+                            <a href="<?= site_url('change_password') ?>" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
                         </li>
                         <li>
                             <hr class="dropdown-divider border-white/[0.08]">
@@ -763,7 +758,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <nav class="side-nav">
                 <ul>
                     <li>
-                        <a href="<?= site_url('admin/dashboard') ?>" class="side-menu side-menu">
+                        <a href="<?= base_url('dashboard') ?>" class="side-menu side-menu">
                             <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
                             <div class="side-menu__title">
                                 Dashboard
@@ -772,21 +767,40 @@ License: You must have a valid license purchased only from themeforest(the above
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url('admin/product') ?>" class="side-menu">
+                        <a href="<?= base_url('order') ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="shopping-bag"></i> </div>
                             <div class="side-menu__title">
-                                Daftar Produk
+                                Riwayat Order
                                 <div class="side-menu__sub-icon "></div>
                             </div>
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url('admin/invoice') ?>" class="side-menu">
+                        <a href="<?= base_url('bill') ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> Order Transaksi </div>
+                            <div class="side-menu__title"> Billing History </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?= base_url('pay') ?>" class="side-menu">
+                            <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
+                            <div class="side-menu__title"> Invoice History </div>
                         </a>
                     </li>
                     <li class="side-nav__devider my-6"></li>
+                    <li>
+                        <a href="<?= base_url('profile') ?>" class="side-menu">
+                            <div class="side-menu__icon"> <i data-lucide="settings"></i> </div>
+                            <div class="side-menu__title"> Settings </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url('change_password') ?>" class="side-menu">
+                            <div class="side-menu__icon"> <i data-lucide="lock"></i> </div>
+                            <div class="side-menu__title"> Change Password </div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- END: Side Menu -->

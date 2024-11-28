@@ -17,14 +17,16 @@ class Product extends CI_Controller
 	{
 		$data['title'] = 'List Product';
 		$data['product'] = $this->model_pembayaran->get('product')->result();
+		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/product/view', $data);
-		$this->load->view('layout/admin/footer');
+		$this->load->view('layout/user/footer');
 	}
 
 	public function add()
 	{
 		$data['title'] = 'Add Product';
+		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/product/add', $data);
 		$this->load->view('layout/admin/footer');

@@ -5,11 +5,11 @@
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-                <div class="w-56 relative text-slate-500">
+                <div class="w-full relative text-slate-500">
                     <input 
                         type="text" 
                         id="search-input" 
-                        class="form-control w-56 box pr-10" 
+                        class="form-control w-full box pr-10" 
                         placeholder="Search..."
                     >
                     <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i>
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div id="product-container" class="grid grid-cols-12 gap-6 mt-5">
-        <?php foreach ($product as $row) : ?>
+        <?php foreach ($products as $row) : ?>
             <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
                 <div class="box">
                     <div class="p-5">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center lg:justify-end items-center p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-                    <a class="btn btn-primary w-full" href="javascript:;" data-tw-toggle="modal" data-tw-target="#checkout-confirmation-modal"> <i data-lucide="shopping-cart" class="w-4 h-4 mr-1"></i> Masukan Keranjang </a>
+                        <a class="btn btn-primary w-full" href="javascript:;" data-tw-toggle="modal" data-tw-target="#checkout-confirmation-modal"> <i data-lucide="shopping-cart" class="w-4 h-4 mr-1"></i> Masukan Keranjang </a>
                     </div>
                 </div>
             </div>
@@ -66,13 +66,14 @@
 $(document).ready(function () {
     $('#search-input').on('keyup', function () {
         const keyword = $(this).val();
+        const kategori = '<?= $_GET['kategori'] ?>';
 
         $.ajax({
             url: '<?= site_url("ProductController/get_products") ?>',
             type: 'POST',
             data: {
                 keyword,
-                kategori: null,
+                kategori,
             },
             dataType: 'json',
             success: function (data) {
@@ -81,7 +82,6 @@ $(document).ready(function () {
                 if (data.length === 0) {
                     html = '<div class="intro-y col-span-12 text-center"><p class="text-gray-600">Produk tidak ditemukan.</p></div>';
                 } else {
-                    const siteUrl = "<?= site_url() ?>";
                     data.forEach(row => {
                         html += `
                             <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
@@ -100,9 +100,7 @@ $(document).ready(function () {
                                         </div>
                                     </div>
                                     <div class="flex justify-center lg:justify-end items-center p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-                                        <a class="btn btn-primary w-full" href="${siteUrl}dashboard/cart/${row.id_brg}"> 
-                                            <i data-lucide="shopping-cart" class="w-4 h-4 mr-1"></i> Masukan Keranjang 
-                                        </a>
+                                        <a class="btn btn-primary w-full" href="javascript:;" data-tw-toggle="modal" data-tw-target="#checkout-confirmation-modal"> <i data-lucide="shopping-cart" class="w-4 h-4 mr-1"></i> Add to Cart </a>
                                     </div>
                                 </div>
                             </div>`;

@@ -32,7 +32,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <div class="mobile-menu md:hidden">
         <div class="mobile-menu-bar">
             <a href="" class="flex mr-auto">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
             </a>
             <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
         </div>
@@ -124,7 +124,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <li>
                                     <a href="side-menu-light-product-list.html" class="menu">
                                         <div class="menu__icon"> <i data-lucide="zap"></i> </div>
-                                        <div class="menu__title">Product List</div>
+                                        <div class="menu__title">Daftar Produk</div>
                                     </a>
                                 </li>
                                 <li>
@@ -674,7 +674,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="h-full flex items-center">
             <!-- BEGIN: Logo -->
             <a href="" class="-intro-x hidden md:flex">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
                 <span class="text-white text-lg ml-3"> KING VAPEZONE </span>
             </a>
             <!-- END: Logo -->
@@ -714,52 +714,14 @@ License: You must have a valid license purchased only from themeforest(the above
                             </div>
                         </a>
                     </li>
+                    <?php foreach ($menus as $menu): ?>
                     <li>
-                        <a href="<?= base_url('categories/shirt') ?>" class="side-menu side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
-                            <div class="side-menu__title">
-                                Merch
-                                <div class="side-menu__sub-icon transform rotate-180"> </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('categories/jacket') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="shopping-bag"></i> </div>
-                            <div class="side-menu__title">
-                                Device
-                                <div class="side-menu__sub-icon "></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('categories/shoes') ?>" class="side-menu">
+                        <a href="<?= base_url('categories/products') ?>?kategori=<?= $menu['kategori'] ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> liquid </div>
+                            <div class="side-menu__title"> <?= $menu['kategori'] ?> </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="<?= base_url('categories/elektronik') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> Cartridge </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= base_url('categories/kids') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> Coil </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= base_url('categories/fashion') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> Others </div>
-                        </a>
-                    </li>
-
-
+                    <?php endforeach; ?>
                     <li class="side-nav__devider my-6"></li>
                 </ul>
             </nav>
