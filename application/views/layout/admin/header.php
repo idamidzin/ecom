@@ -15,8 +15,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta charset="utf-8">
     <link href="<?= site_url('asset') ?>/admin/dist/images/logo.svg" rel="shortcut icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Icewall admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, Icewall Admin Template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="description" content="Ecom KING VAPEZONE">
+    <meta name="keywords" content="Ecommerce KING VAPEZONE">
     <meta name="author" content="LEFT4CODE">
     <title><?= $title ?> | KING VAPEZONE</title>
     <!-- BEGIN: CSS Assets-->
@@ -39,7 +39,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <div class="mobile-menu md:hidden">
         <div class="mobile-menu-bar">
             <a href="" class="flex mr-auto">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
             </a>
             <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
         </div>
@@ -131,7 +131,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <li>
                                     <a href="side-menu-light-product-list.html" class="menu">
                                         <div class="menu__icon"> <i data-lucide="zap"></i> </div>
-                                        <div class="menu__title">Product List</div>
+                                        <div class="menu__title">Daftar Produk</div>
                                     </a>
                                 </li>
                                 <li>
@@ -681,7 +681,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="h-full flex items-center">
             <!-- BEGIN: Logo -->
             <a href="" class="-intro-x hidden md:flex">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
                 <span class="text-white text-lg ml-3"> KING VAPEZONE </span>
             </a>
             <!-- END: Logo -->
@@ -713,7 +713,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <a href="javascript:;" class="font-medium truncate mr-5"><?= $row->name ?></a>
                                         <div class="text-xs text-slate-400 ml-auto whitespace-nowrap"><?= date("d F Y H:i:s", strtotime($row->transaction_time)); ?></div>
                                     </div>
-                                    <div class="w-full truncate text-slate-500 mt-0.5">Telah melakukan order product</div>
+                                    <div class="w-full truncate text-slate-500 mt-0.5">Telah melakukan order produk</div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -724,7 +724,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN: Account Menu -->
             <div class="intro-x dropdown w-8 h-8">
                 <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110" role="button" aria-expanded="false" data-tw-toggle="dropdown">
-                    <img alt="Midone - HTML Admin Template" src="<?= site_url('asset') ?>/user.jpg">
+                    <img  src="<?= site_url('asset') ?>/user.jpg">
                 </div>
                 <div class="dropdown-menu w-56">
                     <ul class="dropdown-content bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white">
@@ -775,7 +775,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         <a href="<?= base_url('admin/product') ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="shopping-bag"></i> </div>
                             <div class="side-menu__title">
-                                Products
+                                Daftar Produk
                                 <div class="side-menu__sub-icon "></div>
                             </div>
                         </a>
@@ -783,7 +783,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <li>
                         <a href="<?= base_url('admin/invoice') ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> Invoice </div>
+                            <div class="side-menu__title"> Order Transaksi </div>
                         </a>
                     </li>
                     <li class="side-nav__devider my-6"></li>

@@ -15,10 +15,9 @@ class Pay extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Billing History';
+        $data['title'] = 'Order Selesai';
         $id = $this->session->userdata('id_user');
-        $data['bill'] = $this->db->query("SELECT * FROM transaction 
-			WHERE transaction.id_user='$id' AND status='1'")->result();
+        $data['bill'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$id' AND status='1'")->result();
         $this->load->view('layout/user/header', $data);
         $this->load->view('pay', $data);
         $this->load->view('layout/user/footer');

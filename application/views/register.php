@@ -33,11 +33,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN: Register Info -->
             <div class="hidden xl:flex flex-col min-h-screen">
                 <a href="" class="-intro-x flex items-center pt-5">
-                    <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                    <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
                     <span class="text-white text-lg ml-3"> VAPEZONE </span>
                 </a>
                 <div class="my-auto">
-                    <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="<?= site_url('asset') ?>/admin/dist/images/illustration.svg">
+                    <img  class="-intro-x w-1/2 -mt-16" src="<?= site_url('asset') ?>/admin/dist/images/illustration.svg">
                     <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
                         Login Untuk membeli,
                         <br>
@@ -62,12 +62,12 @@ License: You must have a valid license purchased only from themeforest(the above
                             <?= form_error('email', '<div class="text-danger small ml-2 mt-2">', '</div>') ?>
                             <input type="password" class="intro-x login__input form-control py-3 px-4 block mt-4" placeholder="Password" name="password_1" autocomplete="off">
                             <?= form_error('password_1', '<div class="text-danger small ml-2 mt-2">', '</div>') ?>
-                            <div class="intro-x w-full grid grid-cols-12 gap-4 h-1 mt-3">
+                            <!-- <div class="intro-x w-full grid grid-cols-12 gap-4 h-1 mt-3">
                                 <div class="col-span-3 h-full rounded bg-success"></div>
                                 <div class="col-span-3 h-full rounded bg-success"></div>
                                 <div class="col-span-3 h-full rounded bg-success"></div>
                                 <div class="col-span-3 h-full rounded bg-slate-100 dark:bg-darkmode-800"></div>
-                            </div>
+                            </div> -->
                             <input type="password" class="intro-x login__input form-control py-3 px-4 block mt-4" placeholder="Password Confirmation" name="password_2" autocomplete="off">
                         </div>
                         <div class="intro-x flex items-center text-slate-600 dark:text-slate-500 mt-4 text-xs sm:text-sm">

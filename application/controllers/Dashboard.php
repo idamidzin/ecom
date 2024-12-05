@@ -15,7 +15,11 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
-		$data['title'] = 'Dashboard User';
+		$user_id = $this->session->userdata('id_user');
+    $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+    $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+
+		$data['title'] = 'Daftar Produk';
 		$data['product'] = $this->model_pembayaran->get('product')->result();
 		$this->load->view('layout/user/header', $data);
 		$this->load->view('dashboard', $data);
@@ -24,28 +28,33 @@ class Dashboard extends CI_Controller
 
 	public function cart($id)
 	{
-		$product = $this->model_pembayaran->find($id);
+		$product = $this->model_product->getProduct($id);
 
-		$data = array(
-			'id'      => $product->id_brg,
-			'qty'     => 1,
-			'price'   => $product->harga,
-			'name'    => $product->nama_brg,
-			'options' => array(
+		$data = [
+			'user_id' => $this->session->userdata('id_user'),
+			'product_id' => $product->id_brg,
+			'quantity'   => 1,
+			'price'      => $product->harga,
+			'name'       => $product->nama_brg,
+			'options'    => json_encode([
 				'keterangan' => $product->keterangan,
-				'kategori' => $product->kategori,
-				'gambar' => $product->gambar
-			)
-		);
+				'kategori'   => $product->kategori,
+				'gambar'     => $product->gambar
+			]),
+	];
 
-		$this->cart->insert($data);
+		$this->temp_cart->addItem($this->session->userdata('id_user'), $data);
 		$_SESSION["sukses"] = 'Pesanan telah disimpan di keranjang';
 		redirect('dashboard');
 	}
 
 	public function detail_cart()
 	{
-		$data['title'] = 'Detail Cart';
+		$user_id = $this->session->userdata('id_user');
+    $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+    $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+		$data['title'] = 'Daftar Keranjang';
+
 		$this->load->view('layout/user/header', $data);
 		$this->load->view('cart', $data);
 		$this->load->view('layout/user/footer');
@@ -53,7 +62,11 @@ class Dashboard extends CI_Controller
 
 	public function checkout()
 	{
+		$user_id = $this->session->userdata('id_user');
+    $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+    $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 		$data['title'] = 'Checkout Product';
+
 		$this->load->view('layout/user/header', $data);
 		$this->load->view('checkout', $data);
 		$this->load->view('layout/user/footer');
@@ -61,10 +74,17 @@ class Dashboard extends CI_Controller
 
 	public function checkout_proccess()
 	{
+		$user_id = $this->session->userdata('id_user');
+    $cartItems = $this->temp_cart->getCartItems($user_id);
 		$data['title'] = 'Payment Notification';
-		$is_processed = $this->model_invoice->index();
+		
+		$is_processed = $this->model_invoice->store($cartItems);
+
 		if ($is_processed) {
-			$this->cart->destroy();
+			$data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+			$data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+
+			// $this->cart->destroy();
 			$this->load->view('layout/user/header', $data);
 			$this->load->view('success_pay', $data);
 			$this->load->view('layout/user/footer');

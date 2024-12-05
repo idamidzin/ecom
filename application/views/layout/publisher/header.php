@@ -32,7 +32,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <div class="mobile-menu md:hidden">
         <div class="mobile-menu-bar">
             <a href="" class="flex mr-auto">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
             </a>
             <a href="javascript:;" class="mobile-menu-toggler"> <i data-lucide="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
         </div>
@@ -124,7 +124,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <li>
                                     <a href="side-menu-light-product-list.html" class="menu">
                                         <div class="menu__icon"> <i data-lucide="zap"></i> </div>
-                                        <div class="menu__title">Product List</div>
+                                        <div class="menu__title">Daftar Produk</div>
                                     </a>
                                 </li>
                                 <li>
@@ -674,7 +674,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="h-full flex items-center">
             <!-- BEGIN: Logo -->
             <a href="" class="-intro-x hidden md:flex">
-                <img alt="Midone - HTML Admin Template" class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
+                <img  class="w-6" src="<?= site_url('asset') ?>/admin/dist/images/logo.svg">
                 <span class="text-white text-lg ml-3"> Shoppify </span>
             </a>
             <!-- END: Logo -->
@@ -690,7 +690,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN: Account Menu -->
             <div class="intro-x dropdown w-8 h-8">
                 <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in scale-110" role="button" aria-expanded="false" data-tw-toggle="dropdown">
-                    <img alt="Midone - HTML Admin Template" src="<?= site_url('asset') ?>/user.png">
+                    <img  src="<?= site_url('asset') ?>/user.png">
                 </div>
                 <div class="dropdown-menu w-56">
                     <ul class="dropdown-content bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white">

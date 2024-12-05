@@ -18,6 +18,7 @@ class Invoice extends CI_Controller
 		$data['title'] = 'Invoice';
 		$transactions = $this->model_invoice->get();
 		$data['invoice'] = $transactions ? $transactions : [];
+		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/payment/invoice', $data);
 		$this->load->view('layout/admin/footer');
@@ -28,6 +29,7 @@ class Invoice extends CI_Controller
 		$data['title'] = 'Detail Checkout';
 		$data['invoice'] = $this->model_invoice->get_id_invoice($id_invoice);
 		$data['pesanan'] = $this->model_invoice->get_id_pesanan($id_invoice);
+		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/payment/detail_invoice', $data);
 		$this->load->view('layout/admin/footer');

@@ -18,15 +18,15 @@
             </div>
             <div class="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
                 <div>
-                    <div class="text-base text-slate-500">Client Details</div>
+                    <div class="text-base text-slate-500">Informasi Pembeli</div>
                     <div class="text-lg font-medium text-primary mt-2"><?= $invoice->name ?></div>
                     <div class="mt-1"><?= $invoice->email ?></div>
                     <div class="mt-1"><?= $invoice->alamat ?>, <?= $invoice->city ?>, <?= $invoice->kode_pos ?>.</div>
                 </div>
                 <div class="lg:text-right mt-10 lg:mt-0 lg:ml-auto">
-                    <div class="text-base text-slate-500">Payment From</div>
-                    <div class="text-lg font-medium text-primary mt-2">Shoppify Commerce</div>
-                    <div class="mt-1">info.shoppify@mail.co.id</div>
+                    <div class="text-base text-slate-500">Form Pembayaran</div>
+                    <div class="text-lg font-medium text-primary mt-2">King Commerce</div>
+                    <div class="mt-1">info.king@gmail.co.id</div>
                 </div>
             </div>
         </div>
@@ -35,9 +35,9 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="whitespace-nowrap !py-5">Product Item</th>
-                            <th class="whitespace-nowrap text-right">Unit Price</th>
-                            <th class="whitespace-nowrap text-right">Qty</th>
+                            <th class="whitespace-nowrap !py-5">Produk</th>
+                            <th class="whitespace-nowrap text-right">Harga Unit</th>
+                            <th class="whitespace-nowrap text-right">Jumlah</th>
                             <th class="whitespace-nowrap text-right">Sub Total</th>
                         </tr>
                     </thead>
@@ -58,13 +58,23 @@
                                 <td class="text-right">Rp. <?= number_format($subtotal, 0, ',', '.') ?></td>
                             </tr>
                         <?php endforeach; ?>
+                        <tr>
+                            <td colspan="2" align="right"></td>
+                            <td align="right">Total</td>
+                            <td align="right"><b>Rp. <?= number_format($invoice->subtotal, 0, ',', '.') ?></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="right"></td>
+                            <td align="right">Ongkos Kirim</td>
+                            <td align="right"><b>Rp. <?= number_format($invoice->total_ongkir, 0, ',', '.') ?></b></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="px-5 sm:px-20 pb-10 sm:pb-20 flex flex-col-reverse sm:flex-row">
             <div class="text-center sm:text-left mt-10 sm:mt-0">
-                <div class="text-base text-slate-500">Payment Method</div>
+                <div class="text-base text-slate-500">Metode Pembayaran</div>
                 <div class="text-lg text-primary font-medium mt-2">Direct Bank Transfer</div>
                 <div>
                     <?php if ($invoice->status == "0"){ ?>
@@ -75,9 +85,9 @@
                 </div>
             </div>
             <div class="text-center sm:text-right sm:ml-auto">
-                <div class="text-base text-slate-500">Total Amount</div>
+                <div class="text-base text-slate-500">Total Pembayaran</div>
                 <div class="text-xl text-primary font-medium mt-2">Rp. <?= number_format($total, 0, ',', '.') ?></div>
-                <div class="mt-1">Taxes included</div>
+                <div class="mt-1">Sudah termasuk pajak</div>
             </div>
         </div>
     </div>
