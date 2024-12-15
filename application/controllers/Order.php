@@ -17,8 +17,11 @@ class Order extends CI_Controller
 	{
 		$data['title'] = 'Riwayat Order';
 		$id = $this->session->userdata('id_user');
-		$data['order'] = $this->db->query("SELECT * FROM transaction 
-			WHERE transaction.id_user='$id'")->result();
+		$data['order'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$id'")->result();
+		$user_id = $this->session->userdata('id_user');
+    $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+    $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+
 		$this->load->view('layout/user/header', $data);
 		$this->load->view('order', $data);
 		$this->load->view('layout/user/footer');
@@ -29,6 +32,9 @@ class Order extends CI_Controller
 		$data['title'] = 'Detail Checkout';
 		$data['invoice'] = $this->model_invoice->get_id_invoice($id_invoice);
 		$data['pesanan'] = $this->model_invoice->get_id_pesanan($id_invoice);
+		$user_id = $this->session->userdata('id_user');
+    $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+    $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 
 		$this->load->view('layout/user/header', $data);
 		$this->load->view('order_detail', $data);

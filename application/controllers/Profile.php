@@ -17,11 +17,11 @@ class Profile extends CI_Controller
     {
         $data['title'] = 'My Profile';
         $id = $this->session->userdata('id_user');
-        $data['profile'] = $this->db->query("SELECT * FROM user 
-			WHERE user.id_user='$id'")->result();
-
-        $data['bill'] = $this->db->query("SELECT * FROM transaction 
-        WHERE transaction.id_user='$id' AND status='0' LIMIT 3")->result();
+        $data['profile'] = $this->db->query("SELECT * FROM user WHERE user.id_user='$id'")->result();
+        $data['bill'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$id' AND status='0' LIMIT 3")->result();
+        $user_id = $this->session->userdata('id_user');
+        $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+        $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 
         $this->load->view('layout/user/header', $data);
         $this->load->view('profile', $data);

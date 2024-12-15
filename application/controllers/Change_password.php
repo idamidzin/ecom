@@ -7,6 +7,10 @@ class Change_password extends CI_Controller
     public function index()
     {
         $data['title'] = 'Change Password';
+        $user_id = $this->session->userdata('id_user');
+        $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+        $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+
         $this->load->view('layout/user/header', $data);
         $this->load->view('change_password', $data);
         $this->load->view('layout/user/footer');
@@ -28,6 +32,9 @@ class Change_password extends CI_Controller
             redirect('welcome');
         } else {
             $data['title'] = 'Change Password';
+            $user_id = $this->session->userdata('id_user');
+            $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
+            $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
             $this->load->view('layout/user/header', $data);
             $this->load->view('change_password', $data);
             $this->load->view('layout/user/footer');
