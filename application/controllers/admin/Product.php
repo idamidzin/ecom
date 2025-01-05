@@ -18,6 +18,9 @@ class Product extends CI_Controller
 		$data['title'] = 'List Product';
 		$data['product'] = $this->model_pembayaran->get('product')->result();
 		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
+		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/product/view', $data);
 		$this->load->view('layout/user/footer');
@@ -27,6 +30,9 @@ class Product extends CI_Controller
 	{
 		$data['title'] = 'Add Product';
 		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
+		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/product/add', $data);
 		$this->load->view('layout/admin/footer');
@@ -72,6 +78,9 @@ class Product extends CI_Controller
 		$where = array('id_brg' => $id);
 		$data['title'] = 'Update Product';
 		$data['product'] = $this->db->query("SELECT * FROM product WHERE id_brg = '$id'")->result();
+		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/product/update', $data);
 		$this->load->view('layout/admin/footer');

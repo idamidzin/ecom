@@ -16,9 +16,10 @@ class Pay extends CI_Controller
     public function index()
     {
         $data['title'] = 'Order Selesai';
-        $id = $this->session->userdata('id_user');
-        $data['bill'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$id' AND status='1'")->result();
         $user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
+        $data['bill'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$user_id' AND status='1'")->result();
         $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
         $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 
@@ -32,7 +33,10 @@ class Pay extends CI_Controller
         $data['title'] = 'Detail Checkout';
         $data['invoice'] = $this->model_invoice->get_id_invoice($id_invoice);
         $data['pesanan'] = $this->model_invoice->get_id_pesanan($id_invoice);
+
         $user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
         $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
         $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 

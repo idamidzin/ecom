@@ -16,9 +16,10 @@ class Publisher extends CI_Controller
     public function index()
     {
         $data['title'] = 'Dashboard Publisher';
-        $id = $this->session->userdata('id_user');
-        $data['user'] = $this->db->query("SELECT * FROM user 
-			WHERE id_user='$id'")->result();
+        $user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
+        $data['user'] = $this->db->query("SELECT * FROM user WHERE id_user='$user_id'")->result();
         $this->load->view('layout/publisher/header', $data);
         $this->load->view('publisher', $data);
         $this->load->view('layout/publisher/footer');

@@ -16,6 +16,7 @@ class Dashboard extends CI_Controller
 	public function index()
 	{
 		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
     $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
     $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 
@@ -51,6 +52,7 @@ class Dashboard extends CI_Controller
 	public function detail_cart()
 	{
 		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
     $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
     $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 		$data['title'] = 'Daftar Keranjang';
@@ -63,6 +65,7 @@ class Dashboard extends CI_Controller
 	public function checkout()
 	{
 		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
     $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
     $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 		$data['title'] = 'Checkout Product';
@@ -75,6 +78,7 @@ class Dashboard extends CI_Controller
 	public function checkout_proccess()
 	{
 		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
     $cartItems = $this->temp_cart->getCartItems($user_id);
 		$data['title'] = 'Payment Notification';
 		

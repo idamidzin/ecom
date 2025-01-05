@@ -16,10 +16,12 @@ class Profile extends CI_Controller
     public function index()
     {
         $data['title'] = 'My Profile';
-        $id = $this->session->userdata('id_user');
-        $data['profile'] = $this->db->query("SELECT * FROM user WHERE user.id_user='$id'")->result();
-        $data['bill'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$id' AND status='0' LIMIT 3")->result();
         $user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
+        $data['profile'] = $this->db->query("SELECT * FROM user WHERE user.id_user='$user_id'")->result();
+        $data['bill'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$user_id' AND status='0' LIMIT 3")->result();
+
         $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
         $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 

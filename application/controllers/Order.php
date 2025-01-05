@@ -16,9 +16,8 @@ class Order extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'Riwayat Order';
-		$id = $this->session->userdata('id_user');
-		$data['order'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$id'")->result();
 		$user_id = $this->session->userdata('id_user');
+		$data['order'] = $this->db->query("SELECT * FROM transaction WHERE transaction.id_user='$user_id'")->result();
     $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
     $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 
@@ -32,7 +31,10 @@ class Order extends CI_Controller
 		$data['title'] = 'Detail Checkout';
 		$data['invoice'] = $this->model_invoice->get_id_invoice($id_invoice);
 		$data['pesanan'] = $this->model_invoice->get_id_pesanan($id_invoice);
+
 		$user_id = $this->session->userdata('id_user');
+		$data['user_id'] = $user_id;
+
     $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
     $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
 

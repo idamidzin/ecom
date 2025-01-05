@@ -22,6 +22,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- BEGIN: CSS Assets-->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="<?= site_url('asset') ?>/admin/dist/css/app.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-kmbmTlxtNRFjaL3L"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- END: CSS Assets-->
@@ -66,6 +68,13 @@ License: You must have a valid license purchased only from themeforest(the above
                     <a href="<?= base_url('pay') ?>" class="menu">
                         <div class="menu__icon"> <i data-lucide="file-text"></i> </div>
                         <div class="menu__title"> Order Selesai </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('chat') ?>" class="menu">
+                        <div class="menu__icon"> <i data-lucide="message-square"></i> </div>
+                        <div class="menu__title"> Pesan </div>
+                        <span id="unread-msg-badge-little" style="display: none; background: #b91c1c; color: white; font-size: 12px; border-radius: 50%; padding: 2%; margin-right: 20px;"></span>
                     </a>
                 </li>
                 <li class="side-nav__devider my-6"></li>
@@ -201,6 +210,13 @@ License: You must have a valid license purchased only from themeforest(the above
                         <a href="<?= base_url('pay') ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
                             <div class="side-menu__title"> Order Selesai </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url('chat') ?>" class="side-menu">
+                            <div class="side-menu__icon"> <i data-lucide="message-square"></i> </div>
+                            <div class="side-menu__title"> Pesan </div>
+                            <span id="unread-msg-badge" style="display: none; background: #b91c1c; color: white; font-size: 12px; border-radius: 50%; padding: 2%; margin-right: 20px;"></span>
                         </a>
                     </li>
                     <li class="side-nav__devider my-6"></li>

@@ -1,0 +1,191 @@
+/* Container for the chat layout */
+.chat-layout {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Contacts section */
+.contacts {
+    width: 30%;
+    border-right: 1px solid #d1d5db;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+.contacts .contact {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
+    cursor: pointer;
+}
+
+.contacts .contact:hover {
+    background-color: #e5e7eb;
+}
+
+.contacts .contact-name {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/* Chat section */
+.chat {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat messages area */
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message.friend {
+    justify-content: flex-start;
+}
+
+.message {
+    max-width: 60%;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    border-radius: 8px;
+    position: relative;
+}
+
+.message.user {
+    background-color: #dcf8c6;
+    color: #000000;
+    border-top-right-radius: 0;
+}
+
+.message.friend {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #e1e1e1;
+    border-top-left-radius: 0;
+}
+
+.time-user,
+.time-friend {
+    font-size: 12px;
+    margin-top: 5px;
+    color: #9ca3af;
+}
+
+/* Chat input area */
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #d1d5db;
+    background-color: #f1f5f9;
+}
+
+.chat-input textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    resize: none;
+    margin-right: 10px;
+    background-color: #e5e7eb;
+}
+
+.chat-input button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background-color: #45a049;
+}
+
+.received {
+    border-radius: 16px 16px 0 16px;
+}
+
+.sent {
+    border-radius: 16px 16px 0 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chat-layout {
+        flex-direction: column; /* Susunan vertikal untuk layar kecil */
+    }
+
+    .contacts {
+        width: 100%;
+        display: none; /* Sembunyikan kontak secara default */
+    }
+
+    .contacts.active {
+        display: block; /* Tampilkan kontak jika aktif */
+    }
+
+    .chat {
+        width: 100%;
+        display: none; /* Sembunyikan chat secara default */
+    }
+
+    .chat.active {
+        display: flex; /* Tampilkan chat jika aktif */
+    }
+
+    .chat-messages {
+        height: calc(100vh - 300px); /* Tinggi dinamis untuk layar kecil */
+        max-height: 250px;
+    }
+
+    .chat-input textarea {
+        font-size: 12px;
+    }
+
+    .chat-input button {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .contacts .contact-name {
+        font-size: 14px;
+    }
+
+    .message {
+        font-size: 12px;
+    }
+
+    .time-user,
+    .time-friend {
+        font-size: 10px;
+    }
+
+    .time-user {
+        justify-content: flex-end;
+    }
+}
