@@ -259,15 +259,16 @@ channel.bind(`new-message`, function(data) {
 });
 
 $(document).ready(function () {
-    $('.contact').first().click();
+    // $('.contact').first().click();
     showChat(false);
+    loadMessages();
 });
 
 function selectContact(userId, name) {
     document.getElementById('contacts').classList.remove('active');
     document.getElementById('chat').classList.add('active');
     document.getElementById('selected-contact').innerHTML = name;
-    loadMessages(userId);
+    window.location.href = '<?= site_url("admin/chat?sender_id=") ?>' + userId;
 }
 
 function showChat(show) {
@@ -284,14 +285,21 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('contacts').classList.add('active');
 });
 
-function loadMessages(friendId) {
-    if (!friendId) return;
-    currentFriendId = friendId;
-    $.post('<?= site_url("admin/Chat/getMessages") ?>', { friend_id: friendId }, function (data) {
+function loadMessages() {
+    const sender_id = '<?= $sender_id ?>';
+    currentFriendId = sender_id ? sender_id : null;
+    if (!currentFriendId) return;
+
+    $.post('<?= site_url("admin/Chat/getMessages") ?>', { friend_id: currentFriendId }, function (res) {
         try {
-            const messages = JSON.parse(data);
+            const data = JSON.parse(res);
+            const { messages, user } = data;
             const chatBox = $('#chat-messages');
             chatBox.html('');
+
+            if (user) {
+                document.getElementById('selected-contact').innerHTML = user.nama_user;
+            }
 
             if (messages.length > 0) {
                 let groupedMessages = [];

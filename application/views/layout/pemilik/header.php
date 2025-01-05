@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= site_url('admin/dashboard') ?>" class="menu">
+                    <a href="<?= site_url('pemilik/dashboard') ?>" class="menu">
                         <div class="menu__icon"> <i data-lucide="home"></i> </div>
                         <div class="menu__title">
                             Dashboard
@@ -50,31 +50,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('admin/product') ?>" class="menu">
-                        <div class="menu__icon"> <i data-lucide="shopping-bag"></i> </div>
-                        <div class="menu__title">
-                            Daftar Produk
-                            <div class="menu__sub-icon "></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= base_url('admin/invoice') ?>" class="menu">
-                        <div class="menu__icon"> <i data-lucide="file-text"></i> </div>
-                        <div class="menu__title"> Order Transaksi </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= base_url('admin/laporan') ?>" class="menu">
+                    <a href="<?= base_url('pemilik/laporan') ?>" class="menu">
                         <div class="menu__icon"> <i data-lucide="file-text"></i> </div>
                         <div class="menu__title"> Laporan Transaksi </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= base_url('admin/chat') ?>" class="menu">
-                        <div class="menu__icon"> <i data-lucide="message-square"></i> </div>
-                        <div class="menu__title"> Pesan </div>
-                        <span id="unread-msg-badge-little" style="display: none; background: #b91c1c; color: white; font-size: 12px; border-radius: 50%; padding: 2%; margin-right: 20px;"></span>
                     </a>
                 </li>
             </ul>
@@ -94,7 +72,7 @@
             <nav aria-label="breadcrumb" class="-intro-x h-full mr-auto">
                 <ol class="breadcrumb breadcrumb-light">
                     <li class="breadcrumb-item"><a href=""><?= $title ?></a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="<?= site_url('admin/dashboard') ?>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<?= site_url('pemilik/dashboard') ?>">Dashboard</a></li>
                 </ol>
             </nav>
             <!-- END: Breadcrumb -->
@@ -106,45 +84,22 @@
                 <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i> </div>
                 <div class="notification-content pt-2 dropdown-menu">
                     <div class="notification-content__box dropdown-content">
-                        <div class="notification-content__title">Notifikasi</div>
-                        <hr style="margin-top: 20px; margin-bottom: 20px;">
-                        <?php if (count($bill) > 0) : ?>
-                            <?php foreach ($bill as $row) : ?>
-                                <a href="<?= site_url('admin/notification') ?>?type=<?= $row->type ?>&order_id=<?= $row->type == 'order' ? $row->order_id : '' ?>&message_id=<?= $row->type == 'message' ? $row->message_id : '' ?>">
-                                    <div class="cursor-pointer relative flex items-center mt-5">
-                                        <div class="ml-2 overflow-hidden">
-                                            <?php if ($row->type == 'order') : ?>
-                                                <div class="flex items-center">
-                                                    <table style="border: 0px solid black; width: 400px !important;">
-                                                        <tr>
-                                                            <td class="font-medium truncate mr-5"><?= $row->name ?></td>
-                                                            <td style="text-align: right !important; font-size: 10px; color: grey;">
-                                                                <?= date("d F Y H:i", strtotime($row->transaction_time)); ?>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="w-full truncate mt-0.5" style="font-size: 11px;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Telah melakukan pemesanan produk</div>
-                                            <?php else: ?>
-                                                <div class="flex items-center">
-                                                    <table style="border: 0px solid black; width: 400px !important;">
-                                                        <tr>
-                                                            <td class="font-medium truncate mr-5"><?= $row->nama_user ?></td>
-                                                            <td style="text-align: right !important; font-size: 10px; color: grey;">
-                                                                <?= date("d F Y H:i", strtotime($row->created_at)); ?>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="w-full truncate mt-0.5" style="font-size: 11px;"><i class="fa fa-commenting" aria-hidden="true"></i> Telah mengirim anda pesan</div>
-                                            <?php endif; ?>
-                                        </div>
+                        <div class="notification-content__title">Notifications</div>
+                        <?php foreach ($bill as $row) : ?>
+                            <div class="cursor-pointer relative flex items-center mt-5">
+                                <div class="w-12 h-12 flex-none image-fit mr-1">
+                                    <img class="rounded-full" src="<?= base_url('asset') ?>/user.png">
+                                    <div class="w-3 h-3 bg-success absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
+                                </div>
+                                <div class="ml-2 overflow-hidden">
+                                    <div class="flex items-center">
+                                        <a href="javascript:;" class="font-medium truncate mr-5"><?= $row->name ?></a>
+                                        <div class="text-xs text-slate-400 ml-auto whitespace-nowrap"><?= date("d F Y H:i:s", strtotime($row->transaction_time)); ?></div>
                                     </div>
-                                </a>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <span style="color: grey;">Tidak ada notifikasi</span>
-                        <?php endif; ?>
+                                    <div class="w-full truncate text-slate-500 mt-0.5">Telah melakukan order produk</div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -191,7 +146,7 @@
             <nav class="side-nav">
                 <ul>
                     <li>
-                        <a href="<?= site_url('admin/dashboard') ?>" class="side-menu side-menu">
+                        <a href="<?= site_url('pemilik/dashboard') ?>" class="side-menu side-menu">
                             <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
                             <div class="side-menu__title">
                                 Dashboard
@@ -200,31 +155,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= base_url('admin/product') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="shopping-bag"></i> </div>
-                            <div class="side-menu__title">
-                                Daftar Produk
-                                <div class="side-menu__sub-icon "></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('admin/invoice') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
-                            <div class="side-menu__title"> Order Transaksi </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('admin/laporan') ?>" class="side-menu">
+                        <a href="<?= base_url('pemilik/laporan') ?>" class="side-menu">
                             <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
                             <div class="side-menu__title"> Laporan Transaksi </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('admin/chat') ?>" class="side-menu">
-                            <div class="side-menu__icon"> <i data-lucide="message-square"></i> </div>
-                            <div class="side-menu__title"> Pesan </div>
-                            <span id="unread-msg-badge" style="display: none; background: #b91c1c; color: white; font-size: 12px; border-radius: 50%; padding: 2%; margin-right: 20px;"></span>
                         </a>
                     </li>
                     <li class="side-nav__devider my-6"></li>

@@ -36,6 +36,9 @@ class Welcome extends CI_Controller
 					case 0:
 						redirect('publisher');
 						break;
+					case 3:
+						redirect('pemilik/dashboard');
+						break;
 
 					default:
 						break;

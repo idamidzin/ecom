@@ -27,6 +27,13 @@ class Chat extends CI_Controller
         $data['users'] = $this->Model_chat->getUsers();
         $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
         $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+        $data['bill'] = $this->model_invoice->getOrderNotification();
+
+        $data['sender_id'] = null;
+        
+        if (isset($_GET['sender_id'])) {
+            $data['sender_id'] = $_GET['sender_id'];
+        }
 
         $this->load->view('layout/admin/header', $data);
         $this->load->view('admin/chat/chat', $data);
@@ -36,8 +43,12 @@ class Chat extends CI_Controller
     public function getMessages() {
         $userId = $this->session->userdata('id_user');
         $friendId = $this->input->post('friend_id');
+        $user = $this->model_user->getUserById($friendId);
         $messages = $this->Model_chat->getMessages($userId, $friendId);
-        echo json_encode($messages);
+        echo json_encode([
+            'messages' => $messages,
+            'user' => $user,
+        ]);
     }
 
     public function sendMessage() {

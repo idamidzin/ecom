@@ -3,6 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Model_invoice extends CI_Model
 {
+	private $table = 'transaction';
+	private $column_search = ['order_id', 'name', 'transaction_time', 'status'];
+	private $order = ['transaction_time' => 'desc'];
+
 	public function index()
 	{
 		date_default_timezone_set('Asia/Jakarta');
@@ -88,7 +92,6 @@ class Model_invoice extends CI_Model
 		return $query->num_rows() > 0; // Mengembalikan true jika data ditemukan, false jika tidak
 	}
 
-
 	public function store($items) {
     date_default_timezone_set('Asia/Jakarta');
 
@@ -168,5 +171,147 @@ class Model_invoice extends CI_Model
 			log_message('error', 'Transaksi gagal: ' . $e->getMessage());
 			return false;
     }
+	}
+
+	public function getAjax()
+	{
+		$this->_get_datatables_query();
+		if ($_POST['length'] != -1) {
+			$this->db->limit($_POST['length'], $_POST['start']);
+		}
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	private function _get_datatables_query()
+	{
+		$this->db->from('transaction');
+
+		// Filter berdasarkan status jika dipilih
+		if (!empty($_POST['status_filter'])) {
+				$this->db->where('status', $_POST['status_filter']);
+		}
+
+		// Pencarian global
+		$i = 0;
+		foreach ($this->column_search as $item) {
+			if (!empty($_POST['search']['value'])) { // Jika terdapat pencarian
+				$filter = $_POST['search']['value'];
+
+				if ($i === 0) {
+					$this->db->group_start(); // Awal grup query OR
+					$this->db->like($item, $filter);
+				} else {
+					$this->db->or_like($item, $filter);
+				}
+
+				if (count($this->column_search) - 1 == $i) {
+					$this->db->group_end(); // Akhir grup query OR
+				}
+			}
+			$i++;
+		}
+
+		// Pengurutan
+		if (!empty($_POST['order'])) { // Order berdasarkan permintaan DataTables
+			$this->db->order_by(
+				$this->column_search[$_POST['order']['0']['column']],
+				$_POST['order']['0']['dir']
+			);
+		} else if (isset($this->order)) { // Default order
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+
+	public function count_all()
+	{
+		$this->db->from('transaction');
+		return $this->db->count_all_results();
+	}
+
+	public function get_filtered($search_query = '', $status_filter = 'all', $start_date = null, $end_date = null)
+	{
+		$this->db->from('transaction');
+
+		if ($start_date && $end_date) {
+			$this->db->where('transaction_time >=', $start_date);
+			$this->db->where('transaction_time <=', $end_date);
+		}
+
+		if (!empty($search_query)) {
+			$this->db->group_start();
+			$this->db->like('order_id', $search_query);
+			$this->db->or_like('name', $search_query);
+			$this->db->or_like('transaction_time', $search_query);
+			$this->db->or_like('status', $search_query);
+			$this->db->group_end();
+		}
+
+		if ($status_filter !== 'all') {
+			$status_value = $status_filter === 'pending' ? '0' : '1';
+			$this->db->where('status', $status_value);
+		}
+
+		if ($_POST['length'] != -1) {
+			$this->db->limit($_POST['length'], $_POST['start']);
+		}
+
+		return $this->db->get()->result();
+	}
+
+	public function count_filtered($search_query = '', $status_filter = 'all')
+	{
+		$this->db->from('transaction');
+
+		if (!empty($search_query)) {
+			$this->db->group_start();
+			$this->db->like('order_id', $search_query);
+			$this->db->or_like('name', $search_query);
+			$this->db->or_like('transaction_time', $search_query);
+			$this->db->or_like('status', $search_query);
+			$this->db->group_end();
+		}
+
+		if ($status_filter !== 'all') {
+			$status_value = $status_filter === 'pending' ? '0' : '1';
+			$this->db->where('status', $status_value);
+		}
+
+		return $this->db->count_all_results();
+	}
+
+	public function getOrderNotification() {
+    $orders = $this->db->select('order_id, name, transaction_time')
+			->from('transaction')
+			->where('status', '0')
+			->order_by('order_id', 'ASC')
+			->get()
+			->result();
+
+		foreach ($orders as &$order) {
+			$order->type = 'order';
+		}
+
+		$user_id = $this->session->userdata('id_user');
+
+		$messages = [];
+		if ($user_id) {
+			$messages = $this->db->select('message.id as message_id, message.receiver_id, message.created_at, message.message, u.nama_user')
+				->from('messages message')
+				->join('user u', 'message.sender_id = u.id_user', 'left')
+				->where('message.is_read', '0')
+				->where('message.receiver_id', $user_id)
+				->get()
+				->result();
+
+			foreach ($messages as &$message) {
+				$message->type = 'message';
+			}
+		}
+
+		$notifications = array_merge($orders, $messages);
+
+    return $notifications;
 	}
 }

@@ -26,5 +26,19 @@ class Model_chat extends CI_Model {
         $query = $this->db->get('messages');
     
         return $query->num_rows() > 0; // Mengembalikan TRUE jika ada pesan yang belum dibaca
+    }
+
+    public function getById($message_id) {
+        $this->db->where('id', $message_id);
+        $query = $this->db->get('messages');
+    
+        return $query->row();
+    }
+   
+    public function markAsRead($message_id) {
+        $this->db->where('id', $message_id);
+        return $this->db->update('messages', [
+            'is_read' => 1
+        ]);
     }    
 }

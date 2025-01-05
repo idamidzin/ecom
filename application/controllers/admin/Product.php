@@ -17,7 +17,7 @@ class Product extends CI_Controller
 	{
 		$data['title'] = 'List Product';
 		$data['product'] = $this->model_pembayaran->get('product')->result();
-		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
+		$data['bill'] = $this->model_invoice->getOrderNotification();
 		$user_id = $this->session->userdata('id_user');
 		$data['user_id'] = $user_id;
 
@@ -29,7 +29,7 @@ class Product extends CI_Controller
 	public function add()
 	{
 		$data['title'] = 'Add Product';
-		$data['bill'] = $this->db->query("SELECT * FROM transaction WHERE status='0' ORDER BY order_id DESC LIMIT 4")->result();
+		$data['bill'] = $this->model_invoice->getOrderNotification();
 		$user_id = $this->session->userdata('id_user');
 		$data['user_id'] = $user_id;
 

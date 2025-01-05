@@ -6,78 +6,34 @@
             <div class="intro-y col-span-12 flex flex-wrap xl:flex-nowrap items-center mt-2">
                 <div class="flex w-full sm:w-auto">
                     <div class="w-48 relative text-slate-500">
-                        <input type="text" class="form-control w-48 box pr-10" placeholder="Search by invoice...">
+                        <input type="text" name="search" class="form-control w-48 box pr-10" placeholder="Cari disini">
                         <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-lucide="search"></i> 
                     </div>
-                    <select class="form-select box ml-2">
-                        <option>Status</option>
-                        <option>Waiting Payment</option>
-                        <option>Confirmed</option>
-                        <option>Packing</option>
-                        <option>Delivered</option>
-                        <option>Completed</option>
+                    <select class="form-select box ml-2" name="status_filter">
+                        <option value="all">Semua Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="done">Selesai</option>
                     </select>
                 </div>
                 <div class="hidden xl:block mx-auto text-slate-500"></div>
-               
             </div>
-            <!-- BEGIN: Data List -->
             <div class="intro-y col-span-12 overflow-auto 2xl:overflow-visible">
-                <table class="table table-report -mt-2">
-                    <thead>
-                        <tr>
-                            <th class="whitespace-nowrap">
-                                <input class="form-check-input" type="checkbox">
-                            </th>
-                            <th class="whitespace-nowrap">ORDER ID</th>
-                            <th class="whitespace-nowrap">CUSTOMER NAME</th>
-                            <th class="whitespace-nowrap">TRANSACTION TIME</th>
-                            <th class="whitespace-nowrap">PROOF OF PAYMENT</th>
-                            <th class="whitespace-nowrap">STATUS</th>
-                            <th class="text-center whitespace-nowrap">ACTIONS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($invoice as $row) : ?>
-                            <tr class="intro-x">
-                                <td class="w-10">
-                                    <input class="form-check-input" type="checkbox">
-                                </td>
-                                <td class="w-40 !py-4"> <a href="<?= site_url('admin/invoice/detail/'.$row->order_id) ?>" class="underline decoration-dotted whitespace-nowrap">#<?= $row->order_id ?></a> </td>
-                                <td class="w-40">
-                                    <a href="" class="font-medium whitespace-nowrap"><?= $row->name ?></a>
-                                </td>
-                                <td>
-                                    <div class="text-slate-500 whitespace-nowrap mt-0.5"><?= $row->transaction_time ?></div>
-                                </td>
-                                <td><?php if (empty($row->gambar)){ ?>
-                                       <div class="flex items-center whitespace-nowrap text-danger"> <i data-lucide="alert-circle" class="w-4 h-4 mr-2"></i>Belum upload bukti </div>
-                                   <?php } else { ?>
-                                    <a href="">
-                                        <div class="flex items-center whitespace-nowrap text-primary"> <i data-lucide="link" class="w-4 h-4 mr-2"></i><a href="<?= base_url() . '/uploads/' . $row->gambar ?>">Lihat Bukti </a></div>
-                                    </a>
-                                    <?php } ?>
-                                </td>
-                                <td>
-                                  <?php if ($row->status == "0"){ ?>
-                                    <div class="flex items-center whitespace-nowrap text-pending"><b>PENDING</b> </div>
-                                <?php } else if ($row->status == "1"){ ?>
-                                    <div class="flex items-center whitespace-nowrap text-success"> <b>PAID</b> </div>
-                                <?php } ?>
-                            </td>
-                            <td class="table-report__action"><center>
-                                <?php if ($row->status == "0"){ ?>
-                                    <div class="flex justify-center items-center">
-                                        <a class="flex items-center text-primary whitespace-nowrap" href="<?= site_url('admin/invoice/confirm/'. $row->order_id) ?>"> <i data-lucide="arrow-left-right" class="w-4 h-4 mr-1"></i> Change Status </a>
-                                    </div>
-                                <?php } else if ($row->status == "1"){ ?>
-                                    <button class="btn btn-sm btn-success text-white">Payment Successfully</button>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                <div class="box" style="padding: 20px;">
+                    <table id="orderTable" class="table table-report -mt-2">
+                        <thead>
+                            <tr>
+                                <th class="whitespace-nowrap">ORDER ID</th>
+                                <th class="whitespace-nowrap">CUSTOMER NAME</th>
+                                <th class="whitespace-nowrap">TRANSACTION TIME</th>
+                                <th class="whitespace-nowrap">PROOF OF PAYMENT</th>
+                                <th class="whitespace-nowrap">STATUS</th>
+                                <th class="text-center whitespace-nowrap">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
@@ -102,3 +58,41 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    // Inisialisasi DataTables
+    var table = $('#orderTable').DataTable({
+        processing: true,
+        serverSide: true,
+        lengthChange: false,
+        searching: false,
+        ajax: {
+            url: '<?= site_url("admin/invoice/ajaxList") ?>',
+            type: 'POST',
+            data: function (d) {
+                d.search_query = $('input[name="search"]').val(); // Ambil nilai pencarian
+                d.status_filter = $('select[name="status_filter"]').val(); // Ambil nilai filter status
+            }
+        },
+        columns: [
+            { data: 'order_id' },
+            { data: 'name' },
+            { data: 'transaction_time' },
+            { data: 'proof_of_payment', orderable: false },
+            { data: 'status' },
+            { data: 'actions', orderable: false }
+        ]
+    });
+
+    // Event untuk pencarian
+    $('input[name="search"]').on('keyup', function () {
+        table.ajax.reload(); // Reload DataTables setiap kali input berubah
+    });
+
+    // Event untuk filter status
+    $('select[name="status_filter"]').on('change', function () {
+        table.ajax.reload(); // Reload DataTables setiap kali filter status berubah
+    });
+});
+</script>

@@ -1,21 +1,21 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Invoice extends CI_Controller
+class Laporan extends CI_Controller
 {
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		if ($this->session->userdata('level') != '1') {
+		if ($this->session->userdata('level') != '3') {
 			redirect('welcome');
 		}
 	}
 
 	public function index()
 	{
-		$data['title'] = 'Invoice';
+		$data['title'] = 'Laporan Transaksi';
 		$transactions = $this->model_invoice->get();
 		$data['invoice'] = $transactions ? $transactions : [];
 		$data['bill'] = $this->model_invoice->getOrderNotification();
@@ -23,42 +23,43 @@ class Invoice extends CI_Controller
 		$user_id = $this->session->userdata('id_user');
 		$data['user_id'] = $user_id;
 
-		$this->load->view('layout/admin/header', $data);
-		$this->load->view('admin/payment/invoice', $data);
-		$this->load->view('layout/admin/footer');
+		$this->load->view('layout/pemilik/header', $data);
+		$this->load->view('pemilik/laporan/transaksi', $data);
+		$this->load->view('layout/pemilik/footer');
 	}
 
-	public function detail($id_invoice)
+	public function cetak_pdf()
 	{
-		$data['title'] = 'Detail Checkout';
-		$data['invoice'] = $this->model_invoice->get_id_invoice($id_invoice);
-		$data['pesanan'] = $this->model_invoice->get_id_pesanan($id_invoice);
+			$startDate = $this->input->get('start_date');
+			$endDate = $this->input->get('end_date');
+			$statusFilter = $this->input->get('status_filter');
 
-		$data['bill'] = $this->model_invoice->getOrderNotification();
-		$user_id = $this->session->userdata('id_user');
-		$data['user_id'] = $user_id;
+			$this->load->library('pdf');
+			$this->pdf->setPaper('A4', 'potrait');
 
-		$this->load->view('layout/admin/header', $data);
-		$this->load->view('admin/payment/detail_invoice', $data);
-		$this->load->view('layout/admin/footer');
-	}
+			$this->db->select('*');
+			$this->db->from('transaction');
+			
+			if ($startDate) {
+				$this->db->where('transaction_time >=', $startDate);
+			}
+		
+			if ($endDate) {
+				$this->db->where('transaction_time <=', $endDate);
+			}
 
-	public function confirm($id)
-	{
-		$this->db->update('transaction', ['status' => '1'], ['order_id' => $id]);
-		$_SESSION["sukses"] = 'Pesanan berhasil di konfirmasi';
-		redirect('admin/invoice');
-	}
+			if ($statusFilter !== 'all') {
+				$status_value = $statusFilter === 'pending' ? '0' : '1';
+				$this->db->where('status', $status_value);
+			}
 
-	public function pdf($id_invoice)
-	{
-		$data['title'] = 'PDF Report';
-		$data['invoice'] = $this->model_invoice->get_id_invoice($id_invoice);
-		$data['pesanan'] = $this->model_invoice->get_id_pesanan($id_invoice);
-		$this->load->library('pdf');
-		$this->pdf->setPaper('A4', 'potrait');
-		$this->pdf->filename = "Invoice Bill.pdf";
-		$this->pdf->load_view('admin/payment/pdf', $data);
+			$data['start_date'] = $startDate;
+			$data['end_date'] = $endDate;
+			
+			$transactions = $this->db->get()->result();
+			
+			$data['transactions'] = $transactions;
+			$this->pdf->load_view('pemilik/laporan/transaksi_pdf', $data);
 	}
 
 	public function ajaxList()
@@ -104,4 +105,5 @@ class Invoice extends CI_Controller
 
 		echo json_encode($output);
 	}
+
 }

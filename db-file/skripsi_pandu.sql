@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 01 Des 2024 pada 14.20
+-- Waktu pembuatan: 05 Jan 2025 pada 12.14
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 7.4.28
 
@@ -61,6 +61,21 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_read` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `product`
 --
 
@@ -79,9 +94,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_brg`, `nama_brg`, `keterangan`, `kategori`, `harga`, `stok`, `gambar`) VALUES
-(1, 'Vaporesso Luxe Q', 'Pod system dengan kapasitas baterai 2000mAh, mendukung output hingga 80W.Pod kecil dengan desain premium dan teknologi anti-bocor.', 'Device', 750000, -8, '7.jpeg'),
+(1, 'Vaporesso Luxe Q', 'Pod system dengan kapasitas baterai 2000mAh, mendukung output hingga 80W.Pod kecil dengan desain premium dan teknologi anti-bocor.', 'Device', 750000, 8, '7.jpeg'),
 (2, 'Smok Nord 4', 'Pod system dengan kapasitas baterai 2000mAh, mendukung output hingga 80W.', 'Device', 600000, 13, '4.jpeg'),
-(4, 'GeekVape Aegis Legend 2', 'Box mod tahan air dan debu dengan daya hingga 200W.', 'Device', 500000, -4, '2.jpeg'),
+(4, 'GeekVape Aegis Legend 2', 'Box mod tahan air dan debu dengan daya hingga 200W.', 'Device', 500000, 4, '2.jpeg'),
 (5, 'Naked 100 - Hawaiian Pog', 'Freebase liquid rasa campuran jeruk, jambu, dan markisa.', 'Liquid', 200000, 2, 'download.jpeg'),
 (6, 'Dinner Lady - Lemon Tart', 'asdfFreebase dengan rasa creamy lemon pie.', 'Liquid', 200000, 10, 'images.jpeg');
 
@@ -108,8 +123,9 @@ CREATE TABLE `temp_cart` (
 --
 
 INSERT INTO `temp_cart` (`id`, `user_id`, `product_id`, `quantity`, `price`, `name`, `options`, `created_at`, `updated_at`) VALUES
-(6, '11', 1, 3, '750000.00', 'Vaporesso Luxe Q', '{\"keterangan\":\"Pod system dengan kapasitas baterai 2000mAh, mendukung output hingga 80W.Pod kecil dengan desain premium dan teknologi anti-bocor.\",\"kategori\":\"Device\",\"gambar\":\"7.jpeg\"}', '2024-11-27 06:52:07', '2024-11-27 12:24:54'),
-(7, '11', 4, 1, '500000.00', 'GeekVape Aegis Legend 2', '{\"keterangan\":\"Box mod tahan air dan debu dengan daya hingga 200W.\",\"kategori\":\"Device\",\"gambar\":\"2.jpeg\"}', '2024-11-27 06:52:10', '2024-11-27 06:52:10');
+(6, '11', 1, 1, '750000.00', 'Vaporesso Luxe Q', '{\"keterangan\":\"Pod system dengan kapasitas baterai 2000mAh, mendukung output hingga 80W.Pod kecil dengan desain premium dan teknologi anti-bocor.\",\"kategori\":\"Device\",\"gambar\":\"7.jpeg\"}', '2024-11-27 06:52:07', '2025-01-04 00:03:55'),
+(7, '11', 4, 1, '500000.00', 'GeekVape Aegis Legend 2', '{\"keterangan\":\"Box mod tahan air dan debu dengan daya hingga 200W.\",\"kategori\":\"Device\",\"gambar\":\"2.jpeg\"}', '2024-11-27 06:52:10', '2024-11-27 06:52:10'),
+(8, '11', 2, 2, '600000.00', 'Smok Nord 4', '{\"keterangan\":\"Pod system dengan kapasitas baterai 2000mAh, mendukung output hingga 80W.\",\"kategori\":\"Device\",\"gambar\":\"4.jpeg\"}', '2025-01-04 00:03:47', '2025-01-05 01:57:52');
 
 -- --------------------------------------------------------
 
@@ -143,8 +159,8 @@ CREATE TABLE `transaction` (
 --
 
 INSERT INTO `transaction` (`order_id`, `id_user`, `name`, `email`, `alamat`, `mobile_phone`, `city`, `kode_pos`, `payment_method`, `ekspedisi`, `total_ongkir`, `tracking_id`, `transaction_time`, `payment_limit`, `status`, `gambar`, `subtotal`, `total_bayar`) VALUES
-('INV-45965289', '11', 'Gembul House', 'test@gmail.com', 'Cipasung Rt10/Rw04 Dusun Manis', '082129960156', '109', '45562', 'Direct Bank Transfer', 'pos', '12000.00', '199218270109', '2024-11-27 17:43:55', '2024-11-28 17:43:55', '1', 'bukti11.png', '2750000.00', '2762000.00'),
-('INV-74772021', '11', 'Gembul House', 'test@gmail.com', 'Cipasung Rt10/Rw04 Dusun Manis', '082129960156', '211', '45562', 'Direct Bank Transfer', 'tiki', '10000.00', '950297528160', '2024-11-27 19:25:48', '2024-11-28 19:25:48', '1', 'bukti4.png', '2750000.00', '2760000.00');
+('INV-45965289', '11', 'Gembul House', 'idamtech98@gmail.com', 'Cipasung Rt10/Rw04 Dusun Manis', '082129960156', '109', '45562', 'Direct Bank Transfer', 'pos', '12000.00', '199218270109', '2024-11-27 17:43:55', '2024-11-28 17:43:55', '0', 'bukti11.png', '2750000.00', '2762000.00'),
+('INV-74772021', '11', 'Gembul House', 'idamtech98@gmail.com', 'Cipasung Rt10/Rw04 Dusun Manis', '082129960156', '211', '45562', 'Direct Bank Transfer', 'tiki', '10000.00', '950297528160', '2024-11-27 19:25:48', '2024-11-28 19:25:48', '0', 'bukti4.png', '2750000.00', '2760000.00');
 
 -- --------------------------------------------------------
 
@@ -166,8 +182,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama_user`, `email`, `password`, `level`, `avatar`) VALUES
-(6, 'Helpdesk Shoppify', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '1', 'user.png'),
-(11, 'Testing', 'test@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '2', 'user.png');
+(6, 'Admin Center', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '1', 'user.png'),
+(11, 'Zoro', 'zoro@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '2', 'user.png'),
+(12, 'Pandu', 'pandu@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '2', 'user.png'),
+(13, 'Raja Pemilik', 'pemilik@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '3', 'user.png');
 
 --
 -- Indexes for dumped tables
@@ -177,6 +195,12 @@ INSERT INTO `user` (`id_user`, `nama_user`, `email`, `password`, `level`, `avata
 -- Indeks untuk tabel `cart`
 --
 ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `messages`
+--
+ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -214,6 +238,12 @@ ALTER TABLE `cart`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT untuk tabel `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `product`
 --
 ALTER TABLE `product`
@@ -223,13 +253,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT untuk tabel `temp_cart`
 --
 ALTER TABLE `temp_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
