@@ -39,7 +39,16 @@
 
                                     <div class="mb-5">
                                         <label for="post-form-7" class="form-label">Nomor Handphone <small class="text-danger">*</small></label>
-                                        <input type="text" id="mobile_phone" name="mobile_phone" class="form-control" placeholder="Nomor handphone" autocomplete="off" required>
+                                        <input 
+                                            type="text" 
+                                            id="mobile_phone" 
+                                            name="mobile_phone" 
+                                            class="form-control" 
+                                            placeholder="Nomor handphone" 
+                                            autocomplete="off" 
+                                            required 
+                                            inputmode="numeric" 
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                     </div>
                                 </div>
                             </div>
@@ -176,35 +185,58 @@
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 
-    function getProvinsi() {
+    function getProvinsi(callback) {
         $.ajax({
             type: "POST",
             url: "<?= base_url('rajaongkir/provinsi') ?>",
             beforeSend: () => {
-                $("#spinner-provinsi").fadeIn();
+                $("#spinner-provinsi").fadeIn(); // Tampilkan spinner sebelum data dimuat
             },
             complete: () => {
-                $("#spinner-provinsi").fadeOut();
+                $("#spinner-provinsi").fadeOut(); // Sembunyikan spinner setelah selesai
             },
             success: (hasil_provinsi) => {
-                $("select[name=provinsi]").html(hasil_provinsi);
+                if (hasil_provinsi) {
+                    $("select[name=provinsi]").html(hasil_provinsi); // Isi dropdown dengan data provinsi
+                    if (callback) callback(); // Panggil callback jika ada
+                } else {
+                    console.error("Data provinsi kosong atau tidak valid.");
+                }
+            },
+            error: (xhr, status, error) => {
+                console.error("Gagal memuat data provinsi:", error);
+                alert("Terjadi kesalahan saat memuat data provinsi. Silakan coba lagi.");
             },
         });
     }
 
-    function getCity(provinsi_id) {
+    function getCity(provinsi_id, callback) {
+        if (!provinsi_id) {
+            console.error("Provinsi ID tidak valid.");
+            return;
+        }
+
         $.ajax({
             type: "POST",
             url: "<?= base_url('rajaongkir/kota') ?>",
-            data: `id_provinsi=${provinsi_id}`,
-            success: function(hasil_kota) {
-                $("select[name=kota]").html(hasil_kota);
-            },
+            data: { id_provinsi: provinsi_id },
             beforeSend: () => {
-                $("#spinner-city").fadeIn();
+                $("#spinner-city").fadeIn(); // Tampilkan spinner sebelum data dimuat
+            },
+            success: (hasil_kota) => {
+                if (hasil_kota) {
+                    $("select[name=kota]").html(hasil_kota); // Isi dropdown dengan data kota
+                    if (callback) callback(); // Panggil callback jika ada
+                } else {
+                    console.error("Data kota kosong atau tidak valid.");
+                }
             },
             complete: () => {
-                $("#spinner-city").fadeOut();
+                $("#spinner-city").fadeOut(); // Sembunyikan spinner setelah selesai
+            },
+            error: (xhr, status, error) => {
+                console.error("Gagal memuat data kota:", error);
+                alert("Terjadi kesalahan saat memuat data kota. Silakan coba lagi.");
             },
         });
     }
@@ -278,7 +310,23 @@
 
     $(document).ready(function() {
         getCarts();
-        getProvinsi();
+        getProvinsi(() => {
+            <?php if ($address): ?>
+                const prov_default = '<?= htmlspecialchars($address->province_id, ENT_QUOTES, 'UTF-8') ?>';
+                const city_default = '<?= htmlspecialchars($address->city_id, ENT_QUOTES, 'UTF-8') ?>';
+                const post_code_default = '<?= htmlspecialchars($address->post_code, ENT_QUOTES, 'UTF-8') ?>';
+                const address_default = '<?= htmlspecialchars($address->address, ENT_QUOTES, 'UTF-8') ?>';
+
+                $("select[name=provinsi]").val(prov_default);
+                $("input[name=kode_pos]").val(post_code_default);
+                $("textarea[name=alamat]").val(address_default);
+                getCity(prov_default, () => {
+                    $("select[name=kota]").val(city_default).trigger('change');
+                });
+            <?php else: ?>
+                getCity($("select[name=provinsi]").val());
+            <?php endif; ?>
+        });
 
         $("select[name=provinsi]").on("change", function() {
             const provinsi_id = $("option:selected", this).attr("id_provinsi");

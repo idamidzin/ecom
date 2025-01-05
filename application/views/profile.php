@@ -30,7 +30,8 @@
         </div>
         <ul class="nav nav-link-tabs flex-col sm:flex-row justify-center lg:justify-start text-center" role="tablist">
             <li id="dashboard-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4 active" data-tw-target="#dashboard" aria-controls="dashboard" aria-selected="true" role="tab"> Dashboard </a> </li>
-            <li id="account-and-profile-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4" data-tw-target="#account-and-profile" aria-selected="false" role="tab"> Update Profile </a> </li>
+            <li id="account-and-profile-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4" data-tw-target="#account-and-profile" aria-selected="false" role="tab"> Profile </a> </li>
+            <li id="alamat-info-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4" data-tw-target="#alamat-info" aria-selected="false" role="tab"> Alamat </a> </li>
         </ul>
     </div>
     <!-- END: Profile Info -->
@@ -87,10 +88,7 @@
 
         <div id="account-and-profile" class="tab-pane" role="tabpanel" aria-labelledby="account-and-profile-tab">
             <div class="grid grid-cols-12 gap-6">
-
-                <!-- BEGIN: Work In Progress -->
                 <div class="intro-y box col-span-12 lg:col-span-12 mt-2">
-
                     <div class="p-5">
                         <div class="tab-content">
                             <div id="work-in-progress-new" class="tab-pane active" role="tabpanel" aria-labelledby="work-in-progress-new-tab">
@@ -101,13 +99,25 @@
                                                 <div class="grid grid-cols-12 gap-x-5">
                                                     <div class="col-span-12 2xl:col-span-6">
                                                         <div>
-                                                            <label for="update-profile-form-1" class="form-label">Your Name</label>
+                                                            <label for="update-profile-form-1" class="form-label">Nama Lengkap</label>
                                                             <input type="hidden" name="id_user" value="<?= $row->id_user ?>">
                                                             <input id="update-profile-form-1" type="text" class="form-control" name="nama_user" placeholder="Input text" value="<?= $row->nama_user ?>">
                                                         </div>
                                                         <div class="mt-3">
-                                                            <label for="update-profile-form-2" class="form-label">Your Email</label>
+                                                            <label for="update-profile-form-2" class="form-label">Email</label>
                                                             <input id="update-profile-form-1" type="email" class="form-control" name="email" placeholder="Input text" value="<?= $row->email ?>">
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <label for="post-form-7" class="form-label">Nomor Handphone</label>
+                                                            <input 
+                                                                type="text" 
+                                                                id="mobile_phone" 
+                                                                name="mobile_phone" 
+                                                                class="form-control" 
+                                                                placeholder="Nomor handphone" 
+                                                                autocomplete="off"
+                                                                inputmode="numeric" 
+                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -131,9 +141,149 @@
                         </div>
                     </div>
                 </div>
-                <!-- END: Work In Progress -->
+            </div>
+        </div>
 
+        <div id="alamat-info" class="tab-pane" role="tabpanel" aria-labelledby="alamat-info-tab">
+            <div class="grid grid-cols-12 gap-6">
+                <div class="intro-y box col-span-12 lg:col-span-12 mt-2">
+                    <div class="p-5">
+                        <div class="tab-content">
+                            <div id="work-in-progress-new" class="tab-pane active" role="tabpanel" aria-labelledby="work-in-progress-new-tab">
+                                <div class="flex flex-col-reverse xl:flex-row flex-col">
+                                    <div class="flex-2 mt-6 xl:mt-0">
+                                        <form action="<?= site_url('address/save') ?>" method="post">
+                                            <?php foreach ($profile as $row) : ?>
+                                                <input type="hidden" name="id_user" value="<?= $row->id_user ?>">
+                                                <div class="grid grid-cols-12 gap-x-5">
+                                                    <div class="col-span-12 2xl:col-span-6">
+                                                        <div class="mt-3">
+                                                            <label for="post-form-7" class="form-label">Provinsi <small class="text-danger">*</small></label>
+                                                            <select name="province_id" id="province_id" class="form-control" required>
+                                                                <option value="">-- Pilih Provinsi --</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <label for="post-form-7" class="form-label">Kota <small class="text-danger">*</small></label>
+                                                            <select name="city_id" id="city_id" class="form-control" required>
+                                                                <option value="">-- Pilih Kota --</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <label for="post-form-7" class="form-label">Kode Pos <small class="text-danger">*</small></label>
+                                                            <input type="text" class="form-control" id="post_code" name="post_code" placeholder="Kode Pos" autocomplete="off" required>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <label for="post-form-7" class="form-label">Alamat Lengkap Kamu <small class="text-danger">*</small></label>
+                                                            <textarea name="address" id="address" class="form-control" placeholder="Silahkan tulis alamat lengkapmu disini" autocomplete="off" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                            <button type="submit" class="btn btn-primary w-200 mt-3">Tambah Alamat</button>
+                                        </form>
+                                    </div>
+                                    <div class="flex-1 mt-6 xl:mt-0">
+                                        <table class="table" style="margin-left: 20px; margin-right: 30px;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Alamat</th>
+                                                    <th style="text-align: center;">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (count($addresses) > 0): ?>
+                                                    <?php foreach ($addresses as $row) : ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?= $row->address ?>
+                                                                <?php if ($row->is_default) : ?>
+                                                                    <span class="badge bg-success ml-2" style="border-radius: 5px; padding: 4px; color: white;">Utama</span>
+                                                                <?php endif; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php if (!$row->is_default) : ?>
+                                                                    <button class="btn btn-sm btn-primary" onclick="switchAddress(<?= $row->id ?>)">
+                                                                        Jadikan Alamat Utama
+                                                                    </button>
+                                                                <?php else : ?>
+                                                                    <span class="text-muted">Sudah Alamat Utama</span>
+                                                                <?php endif; ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="2" style="text-align: center;">Belum ada alamat yang tersimpan!</td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        getProvinsi();
+
+        $("select[name=province_id]").on("change", function() {
+            const provinsi_id = $("option:selected", this).attr("id_provinsi");
+            getCity(provinsi_id);
+        });
+    });
+
+    function getProvinsi() {
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url('rajaongkir/provinsi') ?>",
+            success: (hasil_provinsi) => {
+                $("select[name=province_id]").html(hasil_provinsi);
+            },
+        },);
+    }
+
+    function getCity(provinsi_id) {
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url('rajaongkir/kota') ?>",
+            data: `id_provinsi=${provinsi_id}`,
+            success: function(hasil_kota) {
+                $("select[name=city_id]").html(hasil_kota);
+            },
+        });
+    }
+
+    function switchAddress(addressId) {
+        if (confirm("Apakah Anda yakin ingin menjadikan alamat ini sebagai alamat utama?")) {
+            fetch(`<?= base_url('address/switch_address') ?>`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ address_id: addressId }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Alamat utama berhasil diperbarui.");
+                    location.reload();
+                } else {
+                    alert("Gagal memperbarui alamat utama.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan.");
+            });
+        }
+    }
+
+</script>

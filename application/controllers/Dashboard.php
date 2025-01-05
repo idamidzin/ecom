@@ -68,6 +68,7 @@ class Dashboard extends CI_Controller
 		$data['user_id'] = $user_id;
     $data['cartItems'] = $this->temp_cart->getCartItems($user_id);
     $data['cartTotalItems'] = $this->temp_cart->getTotalItems($user_id);
+    $data['address'] = $this->model_address->getDefault($user_id);
 		$data['title'] = 'Checkout Product';
 
 		$this->load->view('layout/user/header', $data);

@@ -13,10 +13,10 @@
   $(document).ready( function () {
     $('.datatables').DataTable();
   });
+  const userId = `<?= $user_id; ?>`; // Ambil ID pengguna dari server-side
 
   if (!userId || userId != '') {
     let currentFriendId = null; // Menyimpan ID teman yang sedang dipilih
-    const userId = `<?= $user_id; ?>`; // Ambil ID pengguna dari server-side
 
     Pusher.logToConsole = false;
 
